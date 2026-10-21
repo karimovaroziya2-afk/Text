@@ -1,0 +1,241 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{utf8}
+\usepackage[uzbek]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{geometry}
+\geometry{a4paper, margin=20mm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{authblk}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,decorations.markings,patterns,fadings}
+
+% Define custom colors
+\definecolor{spaceblue}{RGB}{15, 23, 42}
+\definecolor{accentblue}{RGB}{37, 99, 235}
+\definecolor{goldaccent}{RGB}{217, 119, 6}
+\definecolor{lightbg}{RGB}{248, 250, 252}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accentblue,
+    citecolor=accentblue,
+    urlcolor=accentblue
+}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{spaceblue}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{accentblue}}{\thesubsection}{1em}{}
+
+\title{\textbf{\Large Oyning harakati, fazalari, hijriy kalendarlar va tutilishlar: simulyatsiya va animatsiya asosida tahlil}}
+
+\author[1]{Meliqo'ziyev Dadaqo'zi Jo'raqo'ziyevich\thanks{Pedagogika fanlari bo‘yicha falsafa doktori (PhD), dotsent. E-mail: \texttt{dadaxon.xadjaev@gmail.com}; ORCID iD: \texttt{0009-0006-2704-7134}}}
+\author[2]{Tursunova Maxliyoxon Xusanjon qizi\thanks{Mas’ul muallif. ORCID iD: \texttt{0009-0006-3812-0130}}}
+
+\affil[1, 2]{Qo‘qon davlat universiteti, Fizika va astronomiya kafedrasi}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent Maqolada Oyning Yer atrofidagi harakati, fazalar almashinuvi, hijriy oy kalendari va Quyosh hamda Oy tutilishlari IMRaD tuzilmasida bayon etiladi. Interaktiv simulyatsiyalar va ko'rgazmali diagrammalar yordamida faza va tutilish geometriyasi hamda hijriy yilning Quyosh yilidan siljishi ko'rsatiladi. Natijalar fazalar tutilish emasligini, tutilishlar esa orbita og'ishi tufayli har oy bo'lmasligini tasdiqlaydi.
+\end{abstract}
+
+\section{Kirish (Introduction)}
+
+Oy Yer atrofida g'arbdan sharqqa elliptik orbita bo'ylab aylanadi. O'rtacha masofa $384\,400\text{ km}$, perigey $\approx 363\,000\text{ km}$, apogey $\approx 405\,500\text{ km}$. Orbita tekisligi ekliptikaga $\approx 5^\circ$ og'ishgan.
+
+Oy o'z nuriga ega emas, Quyosh nurini qaytaradi. Shu sababli kuzatuvchi Oyning yoritilgan qismini turli burchakdan ko'radi va fazalar almashadi. Fazalar bilan tutilishlarni aralashtirish keng tarqalgan xatodir.
+
+\textbf{Maqsad:} (1) fazalar geometriyasini aniqlash; (2) tutilish shartlarini ko'rsatish; (3) hijriy va Quyosh kalendarlari farqini miqdoriy baholash.
+
+\textbf{Gipotezalar:} 
+\begin{itemize}
+    \item \textbf{H1} — faza faqat Yer--Oy--Quyosh joylashuviga bog'liq.
+    \item \textbf{H2} — orbita og'ishi tufayli tutilish faqat tugunlar yaqinida bo'ladi.
+    \item \textbf{H3} — hijriy yil Quyosh yilidan $\approx 11\text{ kun}$ qisqa, shuning uchun oylar fasllarga nisbatan siljiydi.
+    \item \textbf{H4} — orbita ellips bo'lgani uchun tezlik perigeyda katta, apogeyda kichik (Kepler II qonuni).
+\end{itemize}
+
+\section{Metodlar (Methods)}
+
+Ikkita kompyuter simulyatsiyasi va matematik model qurildi. Oy orbitasi aylana deb olindi (soddalashtirish uchun), Quyosh nurlari chapdan parallel tushadi.
+
+\begin{itemize}
+    \item \textbf{Simulyatsiya A.} Oy burchagi $\theta$ ($0^\circ = \text{yangi oy}$). Yoritilgan ulush $f = \frac{1 - \cos\theta}{2}$. Oyning ekliptik kengligi $\beta = 5^\circ \cdot \sin(\theta + \nu)$, bunda $\nu$ — tugunlar holati.
+    \item \textbf{Simulyatsiya B.} Hijriy yil $354.37\text{ kun}$, Quyosh yili $365.24\text{ kun}$. Yillik siljish $\approx 10.87\text{ kun}$. Ramazon boshlanishi $(D_0 - 10.87 \cdot y) \bmod 365.24$ formulasi bilan hisoblandi.
+\end{itemize}
+
+\subsection{Simulyatsiya va Diagrammalar}
+
+% Diagram 1: Lunar Phases Geometry
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.85]
+    % Sun rays
+    \foreach \y in {-2.5, -1.5, -0.5, 0.5, 1.5, 2.5} {
+        \draw[yellow!80!orange, ->, thick] (-6, \y) -- (-4.5, \y);
+    }
+    \node[yellow!80!orange, font=\bfseries] at (-5.2, 3) {Quyosh nurlari};
+
+    % Orbit
+    \draw[dashed, color=gray!60] (0,0) circle (3.2cm);
+
+    % Earth
+    \draw[fill=blue!70!cyan, draw=blue!90!black] (0,0) circle (0.6cm);
+    \node[white, font=\bfseries\tiny] at (0,0) {Yer};
+
+    % Moon positions and phases
+    % New Moon (theta = 0, left side facing sun)
+    \coordinate (M0) at (-3.2, 0);
+    \draw[fill=black] (M0) circle (0.3cm);
+    \draw[fill=white] (M0) ++(90:0.3cm) arc (90:270:0.3cm) -- cycle;
+    \node[below=4pt, font=\tiny\bfseries] at (M0) {Yangi Oy ($\theta=0^\circ$)};
+
+    % First Quarter (theta = 90)
+    \coordinate (M90) at (0, -3.2);
+    \draw[fill=black] (M90) circle (0.3cm);
+    \draw[fill=white] (M90) ++(180:0.3cm) arc (180:360:0.3cm) -- cycle;
+    \node[below=4pt, font=\tiny\bfseries] at (M90) {1-chorak ($\theta=90^\circ$)};
+
+    % Full Moon (theta = 180)
+    \coordinate (M180) at (3.2, 0);
+    \draw[fill=black] (M180) circle (0.3cm);
+    \draw[fill=white] (M180) ++(270:0.3cm) arc (270:450:0.3cm) -- cycle;
+    \node[below=4pt, font=\tiny\bfseries] at (M180) {To'lin Oy ($\theta=180^\circ$)};
+
+    % Last Quarter (theta = 270)
+    \coordinate (M270) at (0, 3.2);
+    \draw[fill=black] (M270) circle (0.3cm);
+    \draw[fill=white] (M270) ++(0:0.3cm) arc (0:180:0.3cm) -- cycle;
+    \node[above=4pt, font=\tiny\bfseries] at (M270) {Oxirgi chorak ($\theta=270^\circ$)};
+
+    % Direction arrow
+    \draw[accentblue, ->, thick] (2.2, 2.2) arc (45:80:3.2cm);
+    \node[accentblue, font=\tiny\bfseries] at (2.5, 2.6) {Harakat yo'nalishi};
+\end{tikzpicture}
+\caption{Oy fazalarining geometrik simulyatsiyasi (Quyosh nurlari chapdan parallel tushadi).}
+\label{fig:phases}
+\end{figure}
+
+% Diagram 2: Kepler's Second Law
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.9]
+    % Ellipse parameters
+    \def\a{3.5}
+    \def\b{2.2}
+    \def\c{1.8} % focus distance = sqrt(a^2 - b^2)
+
+    % Elliptic orbit
+    \draw[thick, spaceblue] (0,0) ellipse (\a cm and \b cm);
+
+    % Sun at one focus
+    \coordinate (Sun) at (-\c, 0);
+    \draw[fill=orange, draw=red!80!black] (Sun) circle (0.35cm);
+    \node[white, font=\tiny\bfseries] at (Sun) {Quyosh};
+
+    % Perigee / Aphelion sector 1 (Near perihelion - faster, wider angle)
+    \fill[accentblue!30, opacity=0.7] (Sun) -- (-\a, 0) arc (180:130:\a cm and \b cm) -- cycle;
+    \draw[accentblue, thick] (Sun) -- (-\a, 0);
+    \draw[accentblue, thick] (Sun) -- ({- \a*cos(130)}, {\b*sin(130)});
+    \node[font=\small\bfseries, color=accentblue] at (-2.8, 0.8) {$S_1$};
+
+    % Sector 2 (Near aphelion - slower, narrower angle)
+    \fill[goldaccent!40, opacity=0.7] (Sun) -- (\a, 0) arc (0:25:\a cm and \b cm) -- cycle;
+    \draw[goldaccent!90!black, thick] (Sun) -- (\a, 0);
+    \draw[goldaccent!90!black, thick] (Sun) -- ({\a*cos(25)}, {\b*sin(25)});
+    \node[font=\small\bfseries, color=goldaccent!90!black] at (2.2, 0.4) {$S_2$};
+
+    % Perihelion & Aphelion labels
+    \node[left, font=\tiny\bfseries] at (-\a, 0) {Perigey (tez)};
+    \node[right, font=\tiny\bfseries] at (\a, 0) {Apogey (sekin)};
+
+    \node[below, font=\small] at (0, -2.4) {Teng vaqtlarda ajratilgan yuzalar teng: $S_1 = S_2$};
+\end{tikzpicture}
+\caption{Kepler II qonuni: Oy perigeyda tezroq, apogeyda sekinroq harakatlanadi.}
+\label{fig:kepler}
+\end{figure}
+
+\section{Natijalar (Results)}
+
+\begin{table}[htbp]
+\centering
+\caption{Oy harakati va kalendarga oid asosiy kattaliklar}
+\label{tab:results}
+\begin{tabular}{ll}
+\toprule
+\textbf{Kattalik} & \textbf{Qiymat} \\
+\midrule
+Yulduz oyi & $27.32\text{ sutka}$ \\
+Sinodik oy & $29.53\text{ sutka}$ \\
+Oyning sutkalik siljishi & $\approx 13^\circ$ ($\approx 50\text{ daqiqa}$ kechroq chiqish) \\
+Hijriy yil & $354\text{ yoki } 355\text{ kun}$ (Quyosh yilidan $\approx 11\text{ kun}$ qisqa) \\
+Nisbat & $\approx 33\text{ Quyosh yili} = 34\text{ hijriy yil}$ \\
+Saros davri & $\approx 18\text{ yil } 11\text{ sutka}$ \\
+To'liq Quyosh tutilishi yo'lagi & $200\text{--}270\text{ km}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Fazalar.} Simulyatsiyada $\theta = 0^\circ$ da Oy Yer va Quyosh orasida, yoritilgan yarmi bizdan qarama-qarshi tomonda: yangi oy. $\theta = 90^\circ$ da birinchi chorak, $\theta = 180^\circ$ da to'lin oy, $\theta = 270^\circ$ da oxirgi chorak kuzatiladi. Fazalar tutilishsiz ham almashaveradi.
+
+\textbf{Tutilishlar.} Tutilish faqat $\theta \approx 0^\circ$ (Quyosh) yoki $180^\circ$ (Oy) da va Oy tugun yaqinida ($|\beta|$ kichik) bo'lganda ehtimoli bor. Boshqa tugun holatlarida Oy Quyosh--Yer chizig'idan yuqoridan yoki pastdan o'tadi.
+
+\textbf{Kalendar.} Hijriy oy Quyosh yili bo'ylab siljiydi. Ramazon har yili $\approx 11\text{ kun}$ oldinga siljiydi va taxminan 33 yilda barcha fasllarni aylanib chiqadi.
+
+\begin{table}[htbp]
+\centering
+\caption{Quyosh va Hijriy yillarining mosligi hamda siljish ko'rsatkichlari}
+\label{tab:shift}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Quyosh yillari} & \textbf{Hijriy yillar} & \textbf{Siljish (kun)} \\
+\midrule
+10 & 10.3 & $\approx 109$ \\
+20 & 20.6 & $\approx 218$ \\
+33 & 34.0 & $\approx 359$ \\
+100 & 103.1 & $\approx 1087$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Kepler II.} Sayyora yoki Oy Quyoshga (yoki Yerga) yaqin nuqtada tez, uzoq nuqtada sekin harakatlanadi, tezliklar nisbati $(1 + e)/(1 - e)$ ga teng. Soya tushgan sektorlar teng vaqtlar uchun teng yuzaga ega. Xuddi shu qonun Oyning perigeyda tezroq, apogeyda sekinroq harakatlanishini tushuntiradi.
+
+\section{Muhokama (Discussion)}
+
+Sinodik oy yulduz oyidan uzun, chunki Yer ham Quyosh atrofida siljiydi va Oy Quyosh--Yer chizig'iga qaytishi uchun biroz ko'proq yurishi kerak. Fazalar sinodik oy bilan o'lchanadi.
+
+Oy orbitasi ekliptikaga og'ma bo'lgani uchun har yangi oyda Quyosh, har to'lin oyda Oy tutilishi sodir bo'lmaydi. Tutilish uchun uch jism deyarli bir chiziqda bo'lishi, ya'ni Oy orbitasining ekliptika bilan kesishish nuqtalari (tugunlar) yaqinida bo'lishi shart. Oy va Quyoshning ko'rinma o'lchamlari deyarli teng ($\approx 0.5^\circ$), shuning uchun to'liq tutilish mumkin; Oy apogeyga yaqin bo'lsa, halqasimon tutilish yuz beradi.
+
+Oy hijriy kalendari yangi hilol kuzatilishiga bog'liq, shuning uchun Ramazon va hayit sanalari kuzatuvga tayanadi. Quyosh hijriy kalendari esa fasllarga bog'langan (Umar Xayyom va hamkasblari tuzgan Jaloliy taqvimi, 1079-yil).
+
+\textbf{Sinodik va yulduz oyi.} Yulduz oyi 27.32, sinodik oy 29.53 sutka. Farq shundan kelib chiqadi: bu vaqt ichida Yer ham Quyosh atrofida siljiydi, Oy esa uni yana Quyosh bilan Yer orasidagi holatga qaytarish uchun biroz ko'proq yurishi kerak. \textbf{H1} tasdiqlandi.
+
+\textbf{Tutilishlar nega kam?} Orbitaning $\approx 5^\circ$ og'ishi tufayli Oy ko'pincha Quyosh--Yer chizig'idan chetda qoladi. Tutilish faqat tugunlar yaqinida, taxminan 18 yil 11 sutkalik saros davri bilan takrorlanadi. \textbf{H2} tasdiqlandi. To'liq Quyosh tutilishi yo'lagi tor ($200\text{--}270\text{ km}$), Oy tutilishi esa Oy ufqdan tepada bo'lgan hamma joydan ko'rinadi.
+
+\textbf{Kalendarlar.} Hijriy kalendarda Ramazon va hayit hilolni kuzatishga bog'liq; Quyosh hijriy kalendari (Jaloliy, 1079-yil) fasllarga bog'langan. \textbf{H3} va \textbf{H4} tasdiqlandi.
+
+\textbf{Cheklovlar.} Simulyatsiyalarda orbita aylana deb olingan; tugunlarning 18.6 yillik siljishi va hilolning ko'rinish shartlari hisobga olinmagan.
+
+\section{Xulosa}
+
+Fazalar Yer--Oy--Quyosh geometriyasidan kelib chiqadi; tutilish esa qo'shimcha shart — tugunga yaqinlikni talab qiladi. Hijriy yil Quyosh yilidan $\approx 11\text{ kun}$ qisqa bo'lgani uchun oylar fasllarga nisbatan siljiydi.
+
+\subsection*{Savol-Javob va Tekshiruv}
+\begin{itemize}
+    \item \textbf{Tekshiruv:} Faza bilan tutilishning farqi nima? Nega har oy tutilish bo'lmaydi?
+    \item \textbf{Savol:} Nega Quyosh tutilishi faqat yangi oyda bo'ladi? \\
+    \textit{Javob:} Oy Quyoshni yopishi uchun Yer va Quyosh orasida bo'lishi kerak, bu faqat yangi oy geometriyasi.
+    \item \textbf{Savol:} Ramazon nega fasllar bo'ylab siljiydi? \\
+    \textit{Javob:} Hijriy yil Quyosh yilidan $\approx 11\text{ kun}$ qisqa, siljish yil sayin jamlanadi.
+\end{itemize}
+
+\end{document}
